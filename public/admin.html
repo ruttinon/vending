@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="dark-dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script>
+<<<<<<< HEAD
+=======
+    window.addEventListener("DOMContentLoaded", () => {
+      if (!localStorage.getItem("adminLoggedIn")) {
+        window.location.href = "admin-login.html"; // ไปหน้า login ถ้ายังไม่ได้เข้าสู่ระบบ
+      }
+    });
+  </script>
+<script>
+>>>>>>> f8ae43cd7cdb60f9367994b0ed4151e06f3845ec
+    const firebaseConfig = {
+      apiKey: "AIzaSyDhI8i5kimRPcJgEIKw0UmlaT2sN70Yazk",
+      authDomain: "this-pro-done.firebaseapp.com",
+      databaseURL: "https://this-pro-done-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "this-pro-done",
+      storageBucket: "this-pro-done.appspot.com",
+      messagingSenderId: "735519750080",
+<<<<<<< HEAD
+      appId: "1:735519750080:web:226c4c7b1d7ba03420fa25"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    window.addEventListener("DOMContentLoaded", () => {
+      if (!localStorage.getItem("adminLoggedIn")) {
+        window.location.href = "admin-login.html";
+      }
+    });
+  </script>
+</head>
+
+<body>
+<div class="dashboard">
+  <aside class="sidebar">
+    <h2>Admin</h2>
+    <nav>
+      <a href="#" class="active" onclick="showSection('dashboard')">📊 Dashboard</a>
+      <a href="#" onclick="showSection('products')">📦 Products</a>
+      <a href="#" onclick="showSection('sales')">📈 Sales Report</a>
+      <a href="#" onclick="showSection('settings')">⚙️ Settings</a>
+      <a href="#" onclick="logout()">🚪 Logout</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <header><h1 id="section-title">Dashboard</h1></header>
+
+    <section id="dashboard" class="main-section">
+      <div class="charts">
+        <div class="chart-box">
+          <h3>รายได้ต่อวัน</h3>
+          <canvas id="dailyRevenueChart"></canvas>
+        </div>
+        <div class="chart-box">
+          <h3>ยอดขายต่อประเภทสินค้า</h3>
+          <canvas id="salesByFootTypeChart"></canvas>
+        </div>
+        <div class="chart-box">
+          <h3>สินค้าเหลือน้อยที่สุด</h3>
+          <canvas id="lowStockChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section id="products" class="main-section" style="display:none">
+      <h2>📦 จัดการสินค้า</h2>
+
+      <div class="admin-container">
+        <h3>เพิ่มสินค้าใหม่</h3>
+        <label>ชื่อสินค้า</label>
+        <input type="text" id="newProductName">
+        <label>ราคา (THB)</label>
+        <input type="number" id="newProductPrice">
+        <label>จำนวนเริ่มต้น</label>
+        <input type="number" id="newProductStock">
+        <label>ประเภทเท้าที่เหมาะสม</label>
+        <select id="newProductFootType">
+          <option value="">-- เลือกประเภทเท้า --</option>
+          <option value="0 Normal Foot">เท้าปกติ</option>
+          <option value="1 Flat Foot">เท้าแบน</option>
+          <option value="2 Higharch Foot">เท้าโค้งสูง</option>
+        </select>
+        <label>ลิงก์ URL รูปสินค้า</label>
+        <input type="text" id="newProductImage" placeholder="https://example.com/your-image.jpg">
+        <button onclick="addNewProduct()">เพิ่มสินค้า</button>
+      </div>
+
+      <div class="admin-container">
+        <h3>เพิ่ม/ลดสต็อกสินค้า</h3>
+        <label>เลือกสินค้า</label>
+        <select id="productSelect"></select>
+        <label>จำนวนที่ต้องการเพิ่มหรือลด</label>
+        <input type="number" id="stockAmount">
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+          <button onclick="addStockToProduct()">➕ เพิ่มสต็อก</button>
+          <button onclick="reduceStockFromProduct()">➖ ลดสต็อก</button>
+        </div>
+      </div>
+
+      <div class="admin-container">
+        <h3>ลบสินค้า</h3>
+        <label>เลือกสินค้าที่ต้องการลบ</label>
+        <select id="deleteProductSelect"></select>
+        <button style="margin-top:10px;" onclick="deleteProduct()">🗑️ ลบสินค้า</button>
+      </div>
+
+      <div class="admin-container">
+        <button onclick="goToStore()">🔙 กลับไปหน้าหลัก</button>
+      </div>
+    </section>
+    <section id="sales" class="main-section" style="display:none">
+      <h2>📈 รายงานยอดขาย</h2>
+      <div class="admin-container">
+        <p>🧾 ยอดขายรวม: <span id="totalSold">-</span> ชิ้น</p>
+        <p>💰 รายได้รวม: <span id="totalRevenue">-</span> บาท</p>
+      </div>
+      <div class="chart-box">
+        <h3>ยอดขายแยกตามประเภทเท้า</h3>
+        <canvas id="salesByTypeChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3>สินค้า Top 5 ที่ขายดีที่สุด</h3>
+        <canvas id="topProductsChart"></canvas>
+      </div>
+    </section>
+
+    <section id="settings" class="main-section" style="display:none">
+      <h2>⚙️ ตั้งค่าระบบ</h2>
+      <p>Browser: <span id="browserInfo">Loading...</span></p>
+      <p>Language: <span id="langInfo">Loading...</span></p>
+      <p>Time Zone: <span id="tzInfo">Loading...</span></p>
+    </section>
+  </main>
+</div>
+
+<!-- Scripts -->
+<script>
+const BASE_URL = "https://this-pro-done-default-rtdb.asia-southeast1.firebasedatabase.app";
+const PRODUCTS_URL = `${BASE_URL}/products.json`;
+
+async function loadProductOptions() {
+  try {
+    const response = await fetch(PRODUCTS_URL);
+    const products = await response.json();
+    
+    const productSelect = document.getElementById("productSelect");
+    const deleteProductSelect = document.getElementById("deleteProductSelect");
+    productSelect.innerHTML = "";
+    deleteProductSelect.innerHTML = "";
+
+    if (products) {
+      Object.entries(products).forEach(([id, data]) => {
+        const option1 = document.createElement("option");
+        option1.value = id;
+        option1.textContent = data.name + (data.stock === 0 ? " (หมด)" : "");
+        productSelect.appendChild(option1);
+
+        const option2 = document.createElement("option");
+        option2.value = id;
+        option2.textContent = data.name;
+        deleteProductSelect.appendChild(option2);
+      });
+    }
+  } catch (err) {
+    alert("❌ โหลดรายการสินค้าล้มเหลว");
+    console.error(err);
+  }
+}
+
+async function addNewProduct() {
+  const name = document.getElementById("newProductName").value;
+  const price = Number(document.getElementById("newProductPrice").value);
+  const stock = Number(document.getElementById("newProductStock").value);
+  const footType = document.getElementById("newProductFootType").value;
+  const image = document.getElementById("newProductImage").value;
+
+  if (!name || price <= 0 || stock < 0 || !footType) {
+    alert("❌ กรุณากรอกข้อมูลให้ครบ!");
+    return;
+  }
+
+  const newProduct = { name, price, stock, footType, visible: true, sold: 0, image: image || "" };
+
+  try {
+    const response = await fetch(PRODUCTS_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newProduct)
+    });
+
+    if (response.ok) {
+      alert("✅ เพิ่มสินค้าใหม่สำเร็จ!");
+      loadProductOptions();
+    } else {
+      alert("❌ ไม่สามารถเพิ่มสินค้าได้");
+    }
+  } catch (err) {
+    alert("❌ เกิดข้อผิดพลาดขณะส่งข้อมูล");
+    console.error(err);
+  }
+}
+
+async function addStockToProduct() {
+  const productId = document.getElementById("productSelect").value;
+  const amount = Number(document.getElementById("stockAmount").value);
+
+  if (amount <= 0 || !productId) {
+    alert("❌ กรุณาใส่จำนวนและเลือกรายการ!");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${BASE_URL}/products/${productId}.json`);
+    const product = await response.json();
+    const newStock = (product.stock || 0) + amount;
+
+    await fetch(`${BASE_URL}/products/${productId}.json`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ stock: newStock })
+    });
+
+    alert("✅ เพิ่มสต็อกสำเร็จ!");
+    loadProductOptions();
+  } catch (err) {
+    alert("❌ เพิ่มสต็อกล้มเหลว");
+    console.error(err);
+  }
+}
+
+async function reduceStockFromProduct() {
+  const productId = document.getElementById("productSelect").value;
+  const amount = Number(document.getElementById("stockAmount").value);
+
+  if (amount <= 0 || !productId) {
+    alert("❌ กรุณาใส่จำนวนและเลือกรายการ!");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${BASE_URL}/products/${productId}.json`);
+    const product = await response.json();
+    let newStock = (product.stock || 0) - amount;
+
+    if (newStock < 0) newStock = 0;
+
+    await fetch(`${BASE_URL}/products/${productId}.json`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ stock: newStock })
+    });
+
+    alert("✅ ลดสต็อกสำเร็จ!");
+    loadProductOptions();
+  } catch (err) {
+    alert("❌ ลดสต็อกล้มเหลว");
+    console.error(err);
+  }
+}
+
+async function deleteProduct() {
+  const productId = document.getElementById("deleteProductSelect").value;
+
+  if (!productId) {
+    alert("❌ กรุณาเลือกสินค้าที่ต้องการลบ!");
+    return;
+  }
+
+  if (!confirm("⚠️ คุณแน่ใจหรือไม่ว่าต้องการลบสินค้านี้?")) {
+    return;
+  }
+
+  try {
+    await fetch(`${BASE_URL}/products/${productId}.json`, {
+      method: "DELETE"
+    });
+    alert("✅ ลบสินค้าเรียบร้อยแล้ว!");
+    loadProductOptions();
+  } catch (err) {
+    alert("❌ ลบสินค้าล้มเหลว");
+    console.error(err);
+  }
+}
+
+function goToStore() {
+  window.location.href = "index_backup.html";
+}
+
+function showSection(sectionId) {
+  const sections = document.querySelectorAll(".main-section");
+  sections.forEach(section => section.style.display = "none");
+  document.getElementById(sectionId).style.display = "block";
+  document.getElementById("section-title").textContent = document.querySelector(`[onclick="showSection('${sectionId}')"]`).textContent;
+}
+
+function logout() {
+  localStorage.removeItem("adminLoggedIn");
+  window.location.href = "index_backup.html";
+}
+
+window.addEventListener("DOMContentLoaded", loadProductOptions);
+document.getElementById('browserInfo').textContent = navigator.userAgent;
+document.getElementById('langInfo').textContent = navigator.language;
+document.getElementById('tzInfo').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+</script>
+
+</body>
+</html>
+
+=======
+      appId: "1:735519750080:web:226c4c7b1d7ba03420fa25",
+      measurementId: "G-Y4N2ERD40J"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+<body>
+  <div class="dashboard">
+    <aside class="sidebar">
+      <h2>Admin</h2>
+      <nav>
+        <a href="#" class="active" onclick="showSection('dashboard')">📊 Dashboard</a>
+        <a href="#" onclick="showSection('products')">📦 Products</a>
+        <a href="#" onclick="showSection('sales')">📈 Sales Report</a>
+        <a href="#" onclick="showSection('settings')">⚙️ Settings</a>
+        <a href="#" onclick="logout()">🚪 Logout</a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header><h1 id="section-title">Dashboard</h1></header>
+
+      <section id="dashboard" class="main-section">
+        <div class="charts">
+          <div class="chart-box">
+            <h3>รายได้ต่อวัน</h3>
+            <canvas id="dailyRevenueChart"></canvas>
+          </div>
+          <div class="chart-box">
+            <h3>ยอดขายต่อประเภทสินค้า</h3>
+            <canvas id="salesByFootTypeChart"></canvas>
+          </div>
+          <div class="chart-box">
+            <h3>สินค้าเหลือน้อยที่สุด</h3>
+            <canvas id="lowStockChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section id="products" class="main-section" style="display:none">
+        <h2>📦 จัดการสินค้า</h2>
+      
+        <div class="admin-container">
+          <h3>เพิ่มสินค้าใหม่</h3>
+          <label>ชื่อสินค้า</label>
+          <input type="text" id="newProductName">
+      
+          <label>ราคา (THB)</label>
+          <input type="number" id="newProductPrice">
+      
+          <label>จำนวนเริ่มต้น</label>
+          <input type="number" id="newProductStock">
+      
+          <label>ประเภทเท้าที่เหมาะสม</label>
+          <select id="newProductFootType">
+            <option value="">-- เลือกประเภทเท้า --</option>
+            <option value="normal">เท้าปกติ (normal)</option>
+            <option value="flat">เท้าแบน (flat)</option>
+            <option value="higharch">เท้าโค้งสูง (higharch)</option>
+          </select>
+      
+          <button onclick="addNewProduct()">เพิ่มสินค้า</button>
+        </div>
+      
+        <div class="admin-container">
+          <h3>เพิ่มสต็อกสินค้า</h3>
+          <label>เลือกสินค้า</label>
+          <select id="productSelect"></select>
+      
+          <label>จำนวนที่ต้องการเพิ่ม</label>
+          <input type="number" id="stockAmount">
+      
+          <button onclick="addStockToProduct()">เพิ่มสต็อก</button>
+        </div>
+      
+        <div class="admin-container">
+          <button onclick="goToStore()">🔙 กลับไปหน้าหลัก</button>
+        </div>
+      </section>
+      
+      <script>
+        const BASE_URL = "https://this-pro-done-default-rtdb.asia-southeast1.firebasedatabase.app";
+        const PRODUCTS_URL = `${BASE_URL}/products.json`;
+      
+        async function loadProductOptions() {
+          try {
+            const response = await fetch(PRODUCTS_URL);
+            const products = await response.json();
+            const productSelect = document.getElementById("productSelect");
+            productSelect.innerHTML = "";
+      
+            if (products) {
+              Object.entries(products).forEach(([id, data]) => {
+                const option = document.createElement("option");
+                option.value = id;
+                option.textContent = data.name;
+                productSelect.appendChild(option);
+              });
+            }
+          } catch (err) {
+            alert("❌ โหลดรายการสินค้าล้มเหลว");
+            console.error(err);
+          }
+        }
+      
+        async function addNewProduct() {
+          const name = document.getElementById("newProductName").value;
+          const price = Number(document.getElementById("newProductPrice").value);
+          const stock = Number(document.getElementById("newProductStock").value);
+          const footType = document.getElementById("newProductFootType").value;
+      
+          if (!name || price <= 0 || stock < 0 || !footType) {
+            alert("❌ กรุณากรอกข้อมูลให้ครบ!");
+            return;
+          }
+      
+          const newProduct = {
+            name,
+            price,
+            stock,
+            footType,
+            visible: true,
+            sold: 0 // ✅ เพิ่มฟิลด์ sold
+          };
+      
+          try {
+            const response = await fetch(PRODUCTS_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(newProduct)
+            });
+      
+            if (response.ok) {
+              alert("✅ เพิ่มสินค้าใหม่สำเร็จ!");
+              loadProductOptions();
+            } else {
+              alert("❌ ไม่สามารถเพิ่มสินค้าได้");
+            }
+          } catch (err) {
+            alert("❌ เกิดข้อผิดพลาดขณะส่งข้อมูล");
+            console.error(err);
+          }
+        }
+      
+        async function addStockToProduct() {
+          const productId = document.getElementById("productSelect").value;
+          const amount = Number(document.getElementById("stockAmount").value);
+      
+          if (amount <= 0 || !productId) {
+            alert("❌ กรุณาใส่จำนวนและเลือกรายการ!");
+            return;
+          }
+      
+          try {
+            const response = await fetch(`${BASE_URL}/products/${productId}.json`);
+            const product = await response.json();
+            const newStock = (product.stock || 0) + amount;
+      
+            await fetch(`${BASE_URL}/products/${productId}.json`, {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ stock: newStock })
+            });
+      
+            alert("✅ เพิ่มสต็อกสำเร็จ!");
+            loadProductOptions();
+          } catch (err) {
+            alert("❌ เพิ่มสต็อกล้มเหลว");
+            console.error(err);
+          }
+        }
+      
+        function goToStore() {
+          window.location.href = "index_backup.html";
+        }
+      
+        window.addEventListener("DOMContentLoaded", loadProductOptions);
+      </script>
+      
+      
+
+        <section id="sales" class="main-section" style="display:none">
+          <h2>📈 รายงานยอดขาย</h2>
+          <div class="admin-container">
+            <p>🧾 ยอดขายรวม: <span id="totalSold">-</span> ชิ้น</p>
+            <p>💰 รายได้รวม: <span id="totalRevenue">-</span> บาท</p>
+          </div>
+        
+          <div class="chart-box">
+            <h3>ยอดขายแยกตามประเภทเท้า</h3>
+            <canvas id="salesByTypeChart"></canvas>
+          </div>
+        
+          <div class="chart-box">
+            <h3>สินค้า Top 5 ที่ขายดีที่สุด</h3>
+            <canvas id="topProductsChart"></canvas>
+          </div>
+        </section>
+        
+        <script>
+          async function fetchSalesData() {
+            const dbRef = firebase.database().ref("products");
+            const snapshot = await dbRef.once("value");
+            return snapshot.val();
+          }
+        
+          async function renderSalesReport() {
+            const data = await fetchSalesData();
+            let totalSold = 0;
+            let totalRevenue = 0;
+            const typeCount = {};
+            const topProducts = [];
+        
+            Object.values(data || {}).forEach(product => {
+              const sold = product.sold || 0;
+              const price = product.price || 0;
+              const type = product.footType || "อื่นๆ";
+        
+              totalSold += sold;
+              totalRevenue += sold * price;
+              typeCount[type] = (typeCount[type] || 0) + sold;
+              topProducts.push({ name: product.name, sold });
+            });
+        
+            // Update summary
+            document.getElementById("totalSold").textContent = totalSold;
+            document.getElementById("totalRevenue").textContent = totalRevenue.toLocaleString();
+        
+            // Chart by foot type
+            new Chart(document.getElementById("salesByTypeChart"), {
+              type: "bar",
+              data: {
+                labels: Object.keys(typeCount),
+                datasets: [{
+                  label: "จำนวนที่ขายได้",
+                  data: Object.values(typeCount),
+                  backgroundColor: "#3b82f6"
+                }]
+              }
+            });
+        
+            // Top 5 selling products
+            topProducts.sort((a, b) => b.sold - a.sold);
+            const top = topProducts.slice(0, 5);
+            new Chart(document.getElementById("topProductsChart"), {
+              type: "bar",
+              data: {
+                labels: top.map(p => p.name),
+                datasets: [{
+                  label: "จำนวนที่ขายได้",
+                  data: top.map(p => p.sold),
+                  backgroundColor: "#10b981"
+                }]
+              }
+            });
+          }
+        </script>
+
+<section id="settings" class="main-section" style="display:none">
+  <h2>⚙️ ตั้งค่าระบบ</h2>
+  <p>Browser: <span id="browserInfo">Loading...</span></p>
+  <p>Language: <span id="langInfo">Loading...</span></p>
+  <p>Time Zone: <span id="tzInfo">Loading...</span></p>
+
+  <section class="section">
+    <h2>🔐 เปลี่ยนรหัสผ่าน</h2>
+    <label>รหัสผ่านเดิม</label>
+    <input type="password" placeholder="********">
+    <label>รหัสผ่านใหม่</label>
+    <input type="password">
+    <label>ยืนยันรหัสผ่านใหม่</label>
+    <input type="password">
+    <button onclick="alert('✅ เปลี่ยนรหัสผ่านสำเร็จ (mock)')">เปลี่ยนรหัสผ่าน</button>
+  </section>
+
+  <section class="section">
+    <h2>⚙️ ตั้งค่าระบบทั่วไป</h2>
+    <label>สกุลเงิน</label>
+    <select><option>THB</option><option>USD</option></select>
+    <label>ภาษา</label>
+    <select><option>ไทย</option><option>English</option></select>
+    <label>วันเริ่มต้นรายงาน</label>
+    <input type="date">
+  </section>
+
+  <section class="section">
+    <h2>📦 ตั้งค่าสินค้าเริ่มต้น</h2>
+    <label>จำนวนแจ้งเตือนสินค้าใกล้หมด</label>
+    <input type="number" value="5">
+    <label>สถานะแสดงสินค้า</label>
+    <select><option value="true">แสดง</option><option value="false">ไม่แสดง</option></select>
+  </section>
+
+  <section class="section">
+    <h2>🧾 จัดการข้อมูล</h2>
+    <button onclick="alert('📥 Export CSV (mock)')">📥 Export รายงาน (CSV)</button>
+    <button onclick="alert('📥 Export JSON (mock)')">📥 Export ข้อมูลสินค้า</button>
+  </section>
+
+  <section class="section danger">
+    <h2>🚨 ล้างข้อมูลทั้งหมด</h2>
+    <button onclick="confirm('คุณแน่ใจหรือไม่ที่จะล้างข้อมูลทั้งหมด?') && alert('🧹 ล้างข้อมูลเรียบร้อย (mock)')">🧹 ล้างข้อมูลระบบ</button>
+  </section>
+</section>
+</main>
+</div>
+
+<script>
+document.getElementById('browserInfo').textContent = navigator.userAgent;
+document.getElementById('langInfo').textContent = navigator.language;
+document.getElementById('tzInfo').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+function showSection(sectionId) {
+const sections = document.querySelectorAll(".main-section");
+sections.forEach(section => section.style.display = "none");
+document.getElementById(sectionId).style.display = "block";
+document.getElementById("section-title").textContent = document.querySelector(`[onclick="showSection('${sectionId}')"]`).textContent;
+}
+</script>
+
+<script> 
+src="product-manager.js"</script>
+
+ <!-- ✅ ฟังก์ชัน logout ด้านล่างสุด -->
+ <script>
+  function logout() {
+  console.log("Logging out...");
+  localStorage.removeItem("adminLoggedIn");
+  window.location.href = "index_backup.html"; // ✅ กลับหน้า index.html หลัง logout
+}
+</script>
+</body>
+</html>
+>>>>>>> f8ae43cd7cdb60f9367994b0ed4151e06f3845ec

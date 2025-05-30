@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<<<<<<< HEAD
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สแกนสุขภาพเท้า</title>
+<!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-image: url('image/blue.png'); /* เปลี่ยนพื้นหลัง */
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    h1 {
+      font-size: 3rem;
+      color: #00e4b2;
+      margin-bottom: 30px;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* เงาข้อความ */
+    }
+    p {
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+      color: #ffffff;
+      text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* เงาข้อความ */
+    }
+    /* ปุ่ม */
+    .scan-btn {
+      font-size: 1.5em;
+      padding: 15px 30px;
+      background-color: #0d6efd;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      text-transform: uppercase;
+      margin-top: 30px;
+      width: 80%;
+    }
+    .scan-btn:hover {
+      background-color: #0b5ed7;
+    }
+    /* ปรับขนาดของวิดีโอ */
+    video {
+      width: 90%;
+      height: auto;
+      margin-top: 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    /* ข้อความผลลัพธ์จากการสแกน */
+    #resultMessage {
+      display: none;
+      font-size: 2.5em;
+      color: black;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      z-index: 9999;
+    }
+    /* เพิ่ม Media Query เพื่อรองรับขนาดหน้าจอเล็ก */
+    @media (max-width: 768px) {
+      video {
+        width: 100%;
+      }
+    }
+</style>
+</head>
+<body>
+<h1>เริ่มการสแกนสุขภาพเท้า</h1>
+<p>กรุณากดปุ่มเพื่อเริ่มการสแกนเท้า</p>
+<!-- กล้อง -->
+<div class="d-flex justify-content-center">
+<video id="video" autoplay></video>
+</div>
+<!-- ปุ่มสแกน -->
+<button class="scan-btn" onclick="startScan()">เริ่มการสแกน</button>
+<!-- ข้อความผลลัพธ์จากการสแกน -->
+<div id="resultMessage">
+    สแกนสำเร็จ! ผลลัพธ์: <span id="scanResult"></span>
+</div>
+<script>
+    let videoElement = document.getElementById("video");
+=======
+  <meta charset="UTF-8">
+  <title>สแกนสุขภาพเท้า</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 100px;
+      background-color: #f4f4f4;
+    }
+    .info {
+      font-size: 1.2em;
+      color: #444;
+    }
+    .scan-btn {
+      font-size: 1.2em;
+      padding: 15px 30px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+    }
+    .scan-btn:hover {
+      opacity: 0.85;
+    }
+    video {
+      width: 80%;
+      height: auto;
+      margin-top: 20px;
+      border: 2px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>🦶 เริ่มการสแกนสุขภาพเท้า</h1>
+  <p class="info">กรุณากดปุ่มเพื่อเริ่มการสแกนเท้า</p>
+
+  <button class="scan-btn" onclick="startScan()">เริ่มการสแกน</button>
+  <video id="video" autoplay></video>
+
+  <script>
+    let videoElement = document.getElementById("video");
+
+>>>>>>> f8ae43cd7cdb60f9367994b0ed4151e06f3845ec
+    function startCamera() {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function (stream) {
+          videoElement.srcObject = stream;
+        })
+        .catch(function (err) {
+          console.error("ไม่สามารถเปิดกล้อง:", err);
+          alert("ไม่สามารถใช้งานกล้องได้");
+        });
+    }
+<<<<<<< HEAD
+    function startScan() {
+      startCamera();
+      setTimeout(() => {
+        const canvas = document.createElement('canvas');
+        canvas.width = videoElement.videoWidth || 640;  // Default width if videoWidth is 0
+        canvas.height = videoElement.videoHeight || 480; // Default height if videoHeight is 0
+        const context = canvas.getContext('2d');
+        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+        const imageData = canvas.toDataURL('image/png');  // Capture image in base64 format
+=======
+
+    function startScan() {
+      startCamera();
+
+      setTimeout(() => {
+        const canvas = document.createElement('canvas');
+        canvas.width = videoElement.videoWidth;
+        canvas.height = videoElement.videoHeight;
+        const context = canvas.getContext('2d');
+        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+        const imageData = canvas.toDataURL('image/png');
+
+>>>>>>> f8ae43cd7cdb60f9367994b0ed4151e06f3845ec
+        if (!imageData) {
+          alert("ไม่สามารถจับภาพจากกล้องได้");
+          return;
+        }
+<<<<<<< HEAD
+        // หยุดกล้องหลังจากจับภาพ
+        let stream = videoElement.srcObject;
+        let tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());  // Stop the video stream after capturing the image
+        // Save the captured image in localStorage
+        localStorage.setItem("capturedImage", imageData);  // Save image to localStorage
+=======
+
+        // ส่งภาพไปที่เซิร์ฟเวอร์
+>>>>>>> f8ae43cd7cdb60f9367994b0ed4151e06f3845ec
+        fetch('http://localhost:5001/scan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: imageData })
+        })
+<<<<<<< HEAD
+        .then(response => response.json())
+        .then(data => {
+          if (data.label && data.confidence !== undefined) {
+            localStorage.setItem("footLabel", data.label);
+            localStorage.setItem("footConfidence", data.confidence);
+            document.getElementById('resultMessage').style.display = 'block';
+            document.getElementById('scanResult').innerText = `${data.label} (${data.confidence.toFixed(2)}%)`;
+            setTimeout(() => {
+              window.location.href = "foot-analysis.html"; // ไปหน้า foot-analysis.html
+            }, 5000);
+=======
+        .then(response => {
+          if (!response.ok) {
+            return response.text().then(text => { throw new Error(text); });
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.label && data.confidence !== undefined) {
+            alert(`ผลลัพธ์: ${data.label} (${data.confidence.toFixed(2)}%)`);
+          } else if (data.error) {
+            alert("❌ ข้อผิดพลาดจากระบบ AI: " + data.error);
+>>>>>>> f8ae43cd7cdb60f9367994b0ed4151e06f3845ec
+          } else {
+            alert("❌ ไม่สามารถอ่านผลลัพธ์จากระบบได้");
+          }
+        })
+        .catch(err => {
+<<<<<<< HEAD
+          console.error("❌ Scan error:", err.message);
+          alert("เกิดข้อผิดพลาดระหว่างส่งข้อมูล:\n" + err.message);
+        });
+      }, 2000);  // Delay to ensure camera starts properly
+    }
+    // เริ่มเปิดกล้องเมื่อหน้าเว็บโหลด
+    window.onload = startCamera;
+</script>
+=======
+          console.error("Scan error:", err.message);
+          alert("เกิดข้อผิดพลาดระหว่างส่งข้อมูล:\n" + err.message);
+        });
+      }, 2000);
+    }
+  </script>
+>>>>>>> f8ae43cd7cdb60f9367994b0ed4151e06f3845ec
+</body>
+</html>

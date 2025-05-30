@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<<<<<<< HEAD
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เมนูหลัก - AI Foot Scanner</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background-image: url('image/BG.png'); /* ใช้ภาพพื้นหลัง */
+      background-size: cover; /* ขยายพื้นหลังให้ครอบคลุมพื้นที่ทั้งหมด */
+      background-position: center; /* จัดตำแหน่งพื้นหลังให้ตรงกลาง */
+      height: 100vh; /* ให้ความสูงของ body เต็มจอ */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: sans-serif;
+      overflow: hidden;
+      animation: backgroundAnimation 10s ease-in-out infinite; /* เพิ่มการเคลื่อนไหวพื้นหลัง */
+      flex-direction: column;
+      text-align: center;
+    }
+
+    /* แอนิเมชั่นพื้นหลัง */
+    @keyframes backgroundAnimation {
+      0% { background-position: center; }
+      50% { background-position: right; }
+      100% { background-position: center; }
+    }
+
+    .hero {
+      padding: 50px 20px;
+      margin-bottom: 30px;
+      animation: fadeIn 1s ease-in-out;
+      background-size: 50%; /* ปรับขนาดของลายน้ำ */
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .hero h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .hero p {
+      font-size: 1.3em;
+      margin-bottom: 30px;
+    }
+
+    /* ปุ่ม */
+    .btn-custom, .btn-secondary-custom {
+      font-size: 1.3em;
+      padding: 15px 40px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+      max-width: 300px;
+      width: 110%; /* ปรับขนาดของปุ่มให้พอดีกับข้อความ */
+    }
+
+    .btn-custom {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .btn-custom:hover {
+      background-color: #218838;
+      transform: translateY(-5px);
+    }
+
+    .btn-secondary-custom {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .btn-secondary-custom:hover {
+      background-color: #0056b3;
+      transform: translateY(-5px);
+    }
+
+    /* ปรับความกว้างและการจัดปุ่มให้ไม่ขึ้นบรรทัดใหม่ */
+    .row {
+      display: flex;
+      justify-content: center; /* จัดปุ่มอยู่ตรงกลาง */
+      gap: 30px; /* ระยะห่างระหว่างปุ่ม */
+      flex-wrap: wrap; /* ป้องกันการขึ้นบรรทัดใหม่ */
+    }
+
+    .col {
+      flex: 1 1 45%; /* ให้ปุ่มซ้ายขวาอยู่ในแนวนอน และให้แต่ละปุ่มมีขนาดเท่ากัน */
+      max-width: 300px; /* ให้ปุ่มไม่ใหญ่เกินไป */
+    }
+
+    /* Button effect */
+    .btn-custom, .btn-secondary-custom {
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-custom:active, .btn-secondary-custom:active {
+      transform: translateY(2px);
+      box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ปรับขอบปุ่มให้กลม */
+    .btn-custom, .btn-secondary-custom {
+      border-radius: 40px;
+    }
+
+    /* เพิ่มลูกเล่นและเงาสำหรับข้อความ */
+    h1, p {
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+      animation: slideUp 2s ease-out;
+    }
+
+    @keyframes slideUp {
+      0% { transform: translateY(20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+=======
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>เมนูหลัก - AI Foot Scanner</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 100px;
+      background-color: #f2f2f2;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 40px;
+    }
+    button {
+      font-size: 1.2em;
+      padding: 15px 30px;
+      margin: 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .scan-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .product-btn {
+      background-color: #2196F3;
+      color: white;
+    }
+    button:hover {
+      opacity: 0.85;
+>>>>>>> f8ae43cd7cdb60f9367994b0ed4151e06f3845ec
+    }
+  </style>
+</head>
+<body>
+<<<<<<< HEAD
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1>FOOTFIT Production</h1>
+  </div>
+
+  <!-- ข้อความ -->
+  <p>กรุณาเลือกเมนูที่คุณต้องการ</p>
+
+  <!-- ปุ่มซ้ายขวา -->
+  <div class="row">
+    <div class="col">
+      <button class="btn-custom" onclick="location.href='scan.html'">
+        🦶 สแกนสุขภาพเท้า
+      </button>
+    </div>
+    <div class="col">
+      <button class="btn-secondary-custom" onclick="location.href='index_backup.html'">
+        🛍️ เลือกซื้อสินค้า
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let lastTouchTime = Date.now();
+    const touchTimeout = 2000; // เวลาหยุดสัมผัสหน้าจอ (2 วินาที)
+
+    // ตั้งค่าให้สามารถสัมผัสหน้าจอ
+    document.body.addEventListener('touchstart', function () {
+      lastTouchTime = Date.now();
+      // หยุดการเปลี่ยนเส้นทางจาก setInterval
+    });
+
+    // เช็คทุก 5 วินาทีว่าไม่มีการสัมผัสหน้าจอ
+    setInterval(function () {
+      if (Date.now() - lastTouchTime > touchTimeout) {
+        window.location.href = 'home.html'; // เปลี่ยนเส้นทางไปหน้า home.html
+      }
+    }, 5000); // เช็คทุก 5 วินาที
+  </script>
+=======
+  <h1>กรุณาเลือกเมนูที่คุณต้องการ</h1>
+  <button class="scan-btn" onclick="location.href='scan.html'">🦶 สแกนสุขภาพเท้า</button>
+  <button class="product-btn" onclick="location.href='index_backup.html'">🛍️ เลือกซื้อสินค้า</button>
+>>>>>>> f8ae43cd7cdb60f9367994b0ed4151e06f3845ec
+</body>
+</html>

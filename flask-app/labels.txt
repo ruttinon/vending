@@ -1,0 +1,7 @@
+0 Normal Foot
+1 Flat Foot
+<<<<<<< HEAD
+2 Higharch Foot
+=======
+2 High Foot
+>>>>>>> f8ae43cd7cdb60f9367994b0ed4151e06f3845ec
